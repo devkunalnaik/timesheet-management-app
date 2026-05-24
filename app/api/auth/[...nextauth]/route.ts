@@ -23,7 +23,7 @@ const authOptions = {
       },
     }),
   ],
-  session: { strategy: "jwt" },
+  session: { strategy: "jwt" as const },
   pages: { signIn: "/login" },
 };
 
