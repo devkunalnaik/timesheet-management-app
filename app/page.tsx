@@ -1,3 +1,12 @@
 export default function Home() {
-  return null;
+  return (
+    <html>
+      <head>
+        <meta httpEquiv="refresh" content="0;url=/login" />
+      </head>
+      <body>
+        <p>Redirecting to <a href="/login">login</a>...</p>
+      </body>
+    </html>
+  );
 }
