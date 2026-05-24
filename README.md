@@ -1,15 +1,19 @@
 # Timesheet Management App
 
-A timesheet management application built with Next.js 16 (App Router), NextAuth.js, React 19, and Tailwind CSS.
+A timesheet management application built with Next.js 16 (App Router), NextAuth.js, React 19, and Tailwind CSS. Users can log in, view a dashboard of timesheet entries, create new entries, and view individual timesheet details.
 
-## Prerequisites
+---
+
+## Setup Instructions
+
+### Prerequisites
 
 - Node.js 20+
 - npm (or yarn/pnpm/bun)
 
-## Getting Started
+### Installation
 
-1. **Install dependencies:**
+1. **Clone the repository and install dependencies:**
 
    ```bash
    npm install
@@ -17,14 +21,15 @@ A timesheet management application built with Next.js 16 (App Router), NextAuth.
 
 2. **Set up environment variables:**
 
-   Create a `.env.local` file in the project root with the following:
+   Create a `.env.local` file in the project root:
 
    ```env
    NEXTAUTH_SECRET=your-secret-key-here
    NEXTAUTH_URL=http://localhost:3000
    ```
 
-   Generate a secret with:
+   Generate a secure secret:
+
    ```bash
    openssl rand -base64 32
    ```
@@ -35,23 +40,55 @@ A timesheet management application built with Next.js 16 (App Router), NextAuth.
    npm run dev
    ```
 
-   The app will be available at [http://localhost:3000](http://localhost:3000).
+   Open [http://localhost:3000](http://localhost:3000).
 
-4. **Build for production:**
+4. **Default login credentials:**
+
+   | Field    | Value                    |
+   |----------|--------------------------|
+   | Email    | admin@tentwenty.test     |
+   | Password | password                 |
+
+5. **Build for production:**
 
    ```bash
    npm run build
    npm start
    ```
 
-## Default Login
+6. **Run lint:**
 
-Use the following credentials to sign in:
+   ```bash
+   npm run lint
+   ```
 
-| Field    | Value                    |
-|----------|--------------------------|
-| Email    | admin@tentwenty.test     |
-| Password | password                 |
+---
+
+## Frameworks & Libraries
+
+| Category       | Technology            | Version  |
+|----------------|-----------------------|----------|
+| Framework      | Next.js (App Router)  | 16.2.6   |
+| UI Library     | React                 | 19.2.4   |
+| Styling        | Tailwind CSS          | v4       |
+| Authentication | NextAuth.js           | v4.24.14 |
+| Forms          | React Hook Form       | v7.76.0  |
+| HTTP Client   | Axiax                 | v1.16.1  |
+| Language       | TypeScript            | v5        |
+| Linting        | ESLint                | v9        |
+| CSS Processing | PostCSS               | -         |
+
+---
+
+## Assumptions & Notes
+
+- **Credentials-based auth only** — No OAuth providers are configured. Uses a hardcoded credentials provider for demo purposes.
+- **JWT session strategy** — Sessions are stored in JWT tokens (no database required).
+- **No database** — Timesheet entries are stored in-memory. Data is lost on server restart.
+- **Legacy code removed** — An old `timesheet-app/` pages-router directory was cleaned up as it was completely disconnected from the active app.
+- **Next.js 16 specifics** — This version introduces breaking changes from standard Next.js 13-15 patterns. Route handler `context.params` is now a Promise (must be awaited). The NextAuth v4 adapter required special handling to work correctly with the app router's request/response cycle.
+
+---
 
 ## Project Structure
 
@@ -65,47 +102,44 @@ app/
 ├── components/
 │   └── AddTaskModal.tsx              # Add task modal component
 ├── dashboard/
-│   └── page.tsx                      # Dashboard page
+│   └── page.tsx                      # Dashboard page (list all entries)
 ├── login/
 │   └── page.tsx                      # Login page (NextAuth credentials)
 ├── timesheet/[id]/
 │   └── page.tsx                      # Individual timesheet detail page
 ├── layout.tsx                        # Root layout
-├── page.tsx                          # Home page
-└── globals.css                       # Global styles
+├── page.tsx                          # Home/landing page
+└── globals.css                       # Global styles (Tailwind)
+.env.local                            # Environment variables
+next.config.ts                        # Next.js configuration
+tsconfig.json                         # TypeScript configuration
+eslint.config.mjs                     # ESLint configuration
+postcss.config.mjs                    # PostCSS (Tailwind) configuration
 ```
 
-## Available Scripts
-
-| Script         | Command           | Description                    |
-|----------------|-------------------|--------------------------------|
-| Development    | `npm run dev`     | Start dev server with hot reload |
-| Production     | `npm run build`   | Build optimized production bundle |
-| Start server   | `npm start`       | Start production server        |
-| Lint           | `npm run lint`    | Run ESLint checks              |
-
-## Tech Stack
-
-- **Framework:** Next.js 16.2.6 (App Router)
-- **Authentication:** NextAuth.js v4 (Credentials + JWT)
-- **UI:** React 19, Tailwind CSS v4
-- **Forms:** React Hook Form v7
-- **HTTP Client:** Axios v1
-- **Language:** TypeScript 5
-- **Linting:** ESLint 9
+---
 
 ## API Routes
 
-| Method | Endpoint                    | Description                  |
-|--------|-----------------------------|------------------------------|
-| GET    | `/api/auth/*`               | NextAuth authentication      |
-| GET    | `/api/timesheets`           | List all timesheet entries   |
-| POST   | `/api/timesheets`           | Create a new entry           |
-| GET    | `/api/timesheets/[id]`      | Get a single entry           |
-| PUT    | `/api/timesheets/[id]`      | Update an entry              |
-| DELETE | `/api/timesheets/[id]`      | Delete an entry              |
+| Method | Endpoint                    | Description                    |
+|--------|-----------------------------|--------------------------------|
+| ALL    | `/api/auth/*`               | NextAuth auth endpoints        |
+| GET    | `/api/timesheets`           | List all timesheet entries     |
+| POST   | `/api/timesheets`           | Create a new entry             |
+| GET    | `/api/timesheets/[id]`      | Get a single entry             |
+| PUT    | `/api/timesheets/[id]`      | Update an entry                |
+| DELETE | `/api/timesheets/[id]`      | Delete an entry                |
 
-## Learn More
+---
 
-- [Next.js Documentation](https://nextjs.org/docs)
-- [NextAuth.js Documentation](https://next-auth.js.org)
+## Time Spent
+
+| Task                                         | Duration   |
+|----------------------------------------------|------------|
+| Project setup & initial scaffolding          | ~15 min    |
+| NextAuth integration with Next.js 16 app router | ~45 min    |
+| Debugging NextAuth route handler 404/500 errors | ~60 min    |
+| Timesheet CRUD API & frontend pages          | ~30 min    |
+| Code cleanup (removing legacy `timesheet-app/`) | ~10 min    |
+| Documentation (README)                       | ~15 min    |
+| **Total**                                    | **~2 hrs 55 min** |
